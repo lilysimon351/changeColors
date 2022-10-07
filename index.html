@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Colors</title>
+</head>
+<body>
+
+    <!-- CONTENT -->
+    <div class="square-wr">
+        <div class="square square-1"></div>
+        <div class="square square-2"></div>
+        <div class="square square-3"></div>
+        <div class="square square-4"></div>
+    </div>
+    <div class="btn-wr">
+        <button class="btn">Change Colors Clockwise</button>
+        <button class="btn-2">Change Colors Randomly</button>
+    </div>
+    <!-- END OF CONTENT -->
+
+    <!-- ____________ SCRIPT ____________ -->
+    <script>
+        const btn = document.querySelector('.btn');
+        const btn2 = document.querySelector('.btn-2');
+        const squares = document.querySelectorAll('.square');
+        let colors = [];
+
+        // define hex numbers and letters
+        const hex = ['a', 'b', 'c', 'd', 'e', 'f'];
+        for (let num = 0; num < 10; num++) {
+            hex.push(num);
+        }
+        
+        // get random number from 0 to specific number
+        function getRandomNum(to) {
+            return Math.floor(Math.random() * to)
+        }
+
+        // get random color
+        function getRandomColor() {
+            let color = '#';
+            const length = hex.length;
+            for (let i = 0; i < 6; i++) {
+                color += hex[getRandomNum(length)];
+            }
+            return color;
+        }
+
+        // set squares random bg colors
+        function setRandomColors() {
+            colors = [];
+            for (let i = 0; i < squares.length; i++) {
+                let randomColor = '';
+                do {
+                    randomColor = getRandomColor();
+                } while( colors?.[i-1] === randomColor )
+
+                colors.push(randomColor)
+            }
+        }
+
+        // set squares bg colors
+        function setBgColors(colors) {
+            colors.forEach((color, i) => {
+                squares[i].style.backgroundColor = color
+            })
+        }
+
+        // set bg colors clockwise by click
+        btn.addEventListener('click', () => {
+            let newColors = [];
+            if(colors.length > 0) {
+                newColors = colors;
+            } else {
+                squares.forEach((item) => {
+                    newColors.push(getComputedStyle(item)['background-color'])
+                })
+            }
+            newColors.unshift(newColors.pop())
+            setBgColors(newColors)
+        });
+
+        // set bg random colors by click
+        btn2.addEventListener('click', () => {
+            setRandomColors();
+            setBgColors(colors);
+        })
+
+        // trigger click
+        btn2.click()
+
+    </script>
+    <!-- ____________ END OF SCRIPT ____________ -->
+
+        <!-- STYLES -->
+        <style>
+            /*
+            * Prefixed by https://autoprefixer.github.io
+            * PostCSS: v8.4.14,
+            * Autoprefixer: v10.4.7
+            * Browsers: last 4 version
+            */
+            body {
+                margin: 0;
+                width: 100%;
+                height: 100vh;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                        flex-direction: column;
+                -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+            }
+            .square-wr {
+                display: -ms-grid;
+                display: grid;
+                grid-gap: 30px;
+                -ms-grid-rows: 1fr 30px 1fr 30px 1fr;
+                -ms-grid-columns: 1fr 30px 1fr 30px 1fr;
+                    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+                margin-bottom: 20px;
+            }
+            .square {
+                display: inline-block;
+                width: 80px;
+                height: 80px;
+            }
+            .square-1 {-ms-grid-column: 2;-ms-grid-column-span: 1;grid-column: 2/3;}
+            .square-2 {-ms-grid-column: 3;-ms-grid-column-span: 1;grid-column: 3/4;-ms-grid-row: 2;-ms-grid-row-span: 1;grid-row: 2/3;}
+            .square-3 {-ms-grid-column: 2;-ms-grid-column-span: 1;grid-column: 2/3;-ms-grid-row: 3;-ms-grid-row-span: 1;grid-row: 3/4;}
+            .square-4 {-ms-grid-column: 1;-ms-grid-column-span: 1;grid-column: 1/2;}
+            .btn, .btn-2 {margin: 0 10px; cursor: pointer;}
+        </style>
+        <!-- END OF STYLES -->
+</body>
+</html>
