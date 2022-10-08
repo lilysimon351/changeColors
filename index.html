@@ -56,7 +56,7 @@
                 let randomColor = '';
                 do {
                     randomColor = getRandomColor();
-                } while( colors?.[i-1] === randomColor )
+                } while( colors.indexOf(randomColor) > -1 )
 
                 colors.push(randomColor)
             }
@@ -128,6 +128,9 @@
             display: inline-block;
             width: 80px;
             height: 80px;
+            -webkit-transition: background 0.7s ease-in-out;
+            -o-transition: background 0.7s ease-in-out;
+            transition: background 0.7s ease-in-out;
         }
         .square-1 {-ms-grid-column: 2;-ms-grid-column-span: 1;grid-column: 2/3;}
         .square-2 {-ms-grid-column: 3;-ms-grid-column-span: 1;grid-column: 3/4;-ms-grid-row: 2;-ms-grid-row-span: 1;grid-row: 2/3;}
